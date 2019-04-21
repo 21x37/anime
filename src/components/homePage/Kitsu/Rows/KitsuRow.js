@@ -1,33 +1,30 @@
 import React from 'react';
 import axios from 'axios';
 import uuid from 'uuid';
-import KitsuRow from './Rows/KitsuRow';
 
-class Kitsu extends React.Component {
+class KitsuRow extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             animes: [],
-            offset: 0,
-            loading: true
-        }
+            offset: parseInt(this.props.offset)
+
+        };
         this.onClickRight = this.onClickRight.bind(this);
         this.onClickLeft = this.onClickLeft.bind(this);
-    }
+    };
     async componentDidMount() {
-        axios.get('/kitsu/api')
-        .then((res) => {
-            this.setState(() => {
-                return {
-                    animes: res.data,
-                    loading: false
-                };
-            });
-            console.log(res);
+        const response = await axios.get(`/kitsu/api?offset=${this.state.offset}`);
+
+        this.setState(() => {
+            return {
+                animes: response.data
+            };
         });
+
     };
     async onClickLeft() {
-        if (this.state.offset !== 0) {
+        if (this.state.offset !== this.props.offset) {
             await this.setState((prevState) => {
                 return {
                     animes: [],
@@ -39,7 +36,7 @@ class Kitsu extends React.Component {
             await this.setState(() => {
                 return {
                     animes: [],
-                    offset: 12062,
+                    offset: parseInt(this.props.offset) + 300,
                     loading: true
                 };
             });
@@ -55,11 +52,11 @@ class Kitsu extends React.Component {
 
     };
     async onClickRight() {
-        if (this.state.offset === 12062) {
+        if (this.state.offset === parseInt(this.props.offset) + 300) {
             await this.setState(() => {
                 return {
                     animes: [],
-                    offset: 0,
+                    offset: parseInt(this.props.offset),
                     loading: true
                 };
             });
@@ -80,21 +77,25 @@ class Kitsu extends React.Component {
                 loading: false
             };
         });
-
     };
     render() {
         return (
-            <div>
-                <input type='text'/>
-                {this.state.loading && <p>Loading...</p>}
+        <div>
+            <p>--------------------------------------------------------</p>
+            <button onClick={this.onClickRight}>Forward</button>
+            <button onClick={this.onClickLeft}>Back</button>
+            {this.state.animes.map((anime) => {
+                    return (
+                        <div key={uuid()}>
+                            <p>{anime.title}</p>
+                            <p>{anime.description}</p>
+                            <p>{anime.episodes}</p>
+                            <p>{anime.ageRating}</p>
+                        </div>
+                    )
+                })}
+        </div>
+    )}
+}
 
-                <KitsuRow offset='0'/>
-                <KitsuRow offset='300'/>
-                <KitsuRow offset='600'/>
-                <KitsuRow offset='900'/>
-            </div>
-        );
-    };
-};
-
-export default Kitsu;
+export default KitsuRow;

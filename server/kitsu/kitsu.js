@@ -13,6 +13,11 @@ const fetchKitsu = async (params) => {
         const data = response.data.data;
         const parsedData = parseData(data);
         return parsedData;
+    } else if (params.offset) {
+       const response = await axios.get(`https://kitsu.io/api/edge/anime?page[limit]=10&page[offset]=${params.offset}`, { headers });
+       const data = response.data.data;
+       const parsedData = parseData(data);
+       return parsedData; 
     } else {
         let response = await axios.get('https://kitsu.io/api/edge/anime', { headers });
         const data = response.data.data;
