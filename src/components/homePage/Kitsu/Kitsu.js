@@ -1,13 +1,16 @@
 import React from 'react';
-import fetchKitsu from '../../api/kitsu';
+import axios from 'axios';
 
 class Kitsu extends React.Component {
     constructor(props) {
         super(props);
     }
     async componentDidMount() {
-        const response = await fetchKitsu();
-        console.log(response);
+        axios.get('/kitsu/api')
+        .then((res) => {
+            console.log(res);
+        });
+
     }
     render() {
         return (

@@ -1,9 +1,13 @@
 const express = require('express');
 const router = new express.Router();
+const fetchKitsu = require('../kitsu/kitsu');
 
 
-router.post('/quote/api', async (req, res) => {
-    res.send(req.body);
+router.get('/kitsu/api', async (req, res) => {
+    const params = req.query;
+
+    const response = await fetchKitsu(params);
+    res.send(response);
 });
 
 module.exports = router;
