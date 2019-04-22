@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import uuid from 'uuid';
+import IndividualShow from './IndividualShow';
 
 class KitsuRow extends React.Component {
     constructor(props) {
@@ -24,10 +25,9 @@ class KitsuRow extends React.Component {
 
     };
     async onClickLeft() {
-        if (this.state.offset !== this.props.offset) {
+        if (this.state.offset !== parseInt(this.props.offset)) {
             await this.setState((prevState) => {
                 return {
-                    animes: [],
                     offset: prevState.offset - 10,
                     loading: true
                 };
@@ -35,7 +35,6 @@ class KitsuRow extends React.Component {
         } else {
             await this.setState(() => {
                 return {
-                    animes: [],
                     offset: parseInt(this.props.offset) + 300,
                     loading: true
                 };
@@ -55,7 +54,6 @@ class KitsuRow extends React.Component {
         if (this.state.offset === parseInt(this.props.offset) + 300) {
             await this.setState(() => {
                 return {
-                    animes: [],
                     offset: parseInt(this.props.offset),
                     loading: true
                 };
@@ -63,7 +61,6 @@ class KitsuRow extends React.Component {
         } else {
             await this.setState((prevState) => {
                 return {
-                    animes: [],
                     offset: prevState.offset + 10,
                     loading: true
                 };
@@ -80,20 +77,22 @@ class KitsuRow extends React.Component {
     };
     render() {
         return (
-        <div>
-            <p>--------------------------------------------------------</p>
-            <button onClick={this.onClickRight}>Forward</button>
+        <div className='kitsu-row'>
             <button onClick={this.onClickLeft}>Back</button>
             {this.state.animes.map((anime) => {
                     return (
-                        <div key={uuid()}>
-                            <p>{anime.title}</p>
-                            <p>{anime.description}</p>
-                            <p>{anime.episodes}</p>
-                            <p>{anime.ageRating}</p>
+                        <div className='individual-show-container' key={uuid()}>
+                            <IndividualShow 
+                                title={anime.title} 
+                                description={anime.description} 
+                                epsiodes={anime.episodes}
+                                ageRating={anime.ageRating}
+                                image={anime.image}
+                            />
                         </div>
                     )
                 })}
+            <button onClick={this.onClickRight}>Forward</button>
         </div>
     )}
 }

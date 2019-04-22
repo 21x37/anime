@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import uuid from 'uuid';
 import KitsuRow from './Rows/KitsuRow';
 
 class Kitsu extends React.Component {
@@ -85,9 +84,7 @@ class Kitsu extends React.Component {
     render() {
         return (
             <div>
-                <input type='text'/>
                 {this.state.loading && <p>Loading...</p>}
-
                 <KitsuRow offset='0'/>
                 <KitsuRow offset='300'/>
                 <KitsuRow offset='600'/>
