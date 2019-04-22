@@ -6,10 +6,12 @@ class IndividualShow extends React.Component {
         super(props);
         this.state = {
             width: '150px',
-            visible: false
+            visible: false,
+            clicked: false
         }
         this.onMouseOver = this.onMouseOver.bind(this);
         this.onMouseLeave = this.onMouseLeave.bind(this);
+        this.onClick = this.onClick.bind(this);
     }
     TextAbstract(text) {
         if (text == null) {
@@ -31,22 +33,42 @@ class IndividualShow extends React.Component {
                     visible: true
                 }
             })
-            console.log('fired');
         } else {
+            
         }
 
     }
     onMouseLeave() {
-        this.setState(() => {
-            return {
-                width: '150px',
-                visible: false
-            }
-        })
+        if (this.state.clicked === false) {
+            this.setState(() => {
+                return {
+                    width: '150px',
+                    visible: false
+                };
+            });
+        }
+    };
+    onClick() {
+        if (this.state.clicked) {
+            this.setState(() => {
+                return {
+                    width: '150px',
+                    clicked: false
+                };
+            });
+        } else {
+            this.setState(() => {
+                return {
+                    width: '250px',
+                    clicked: true
+                }
+            })
+        }
+
     }
     render() {
         return (
-                 <div onMouseOver={this.onMouseOver} onMouseLeave={this.onMouseLeave} key={uuid()}>
+                 <div onMouseOver={this.onMouseOver} onMouseLeave={this.onMouseLeave} onClick={this.onClick} key={uuid()}>
                     <h3>{this.TextAbstract(this.props.title)}</h3>
                     {false && <p>{this.props.description}</p> }
                     {false && <p>{this.props.episodes} episodes</p> }
