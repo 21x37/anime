@@ -49,21 +49,22 @@ class IndividualShow extends React.Component {
         }
     };
     onClick() {
-        if (this.state.clicked) {
-            this.setState(() => {
-                return {
-                    width: '150px',
-                    clicked: false
-                };
-            });
-        } else {
-            this.setState(() => {
-                return {
-                    width: '250px',
-                    clicked: true
-                }
-            })
-        }
+        this.props.animeClicked(this.props.title);
+        // if (this.state.clicked) {
+        //     this.setState(() => {
+        //         return {
+        //             width: '150px',
+        //             clicked: false
+        //         };
+        //     });
+        // } else {
+        //     this.setState(() => {
+        //         return {
+        //             width: '250px',
+        //             clicked: true
+        //         }
+        //     })
+        // }
 
     }
     render() {
@@ -73,7 +74,7 @@ class IndividualShow extends React.Component {
                     {false && <p>{this.props.description}</p> }
                     {false && <p>{this.props.episodes} episodes</p> }
                     {false && <p>{this.props.ageRating}</p> }
-                    <img style={{width: this.state.width }} src={this.props.image}/>
+                    <img style={{ width: this.props.width }} src={this.props.image}/>
                 </div>
         );
     };

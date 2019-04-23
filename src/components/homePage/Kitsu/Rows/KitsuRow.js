@@ -8,11 +8,13 @@ class KitsuRow extends React.Component {
         super(props);
         this.state = {
             animes: [],
+            clickedTitle: '',
             offset: parseInt(this.props.offset)
 
         };
         this.onClickRight = this.onClickRight.bind(this);
         this.onClickLeft = this.onClickLeft.bind(this);
+        this.animeClicked = this.animeClicked.bind(this);
     };
     async componentDidMount() {
         const response = await axios.get(`/kitsu/api?offset=${this.state.offset}`);
@@ -75,6 +77,20 @@ class KitsuRow extends React.Component {
             };
         });
     };
+    async animeClicked(title) {
+        console.log(title);
+        await this.props.onAnimeClicked(this.props.row, title);
+
+        if (this.props.allowShowcaseAnime) {
+            if (this.state.clickedTitle !== title) {
+                this.setState({ clickedTitle: title })
+            } else {
+                this.setState({ clickedTitle: null })
+            };
+        };
+
+
+    }
     render() {
         return (
         <div className='kitsu-row'>
@@ -88,6 +104,8 @@ class KitsuRow extends React.Component {
                                 epsiodes={anime.episodes}
                                 ageRating={anime.ageRating}
                                 image={anime.image}
+                                width={this.props.clickedTitle === anime.title ? '250px' : '150px'}
+                                animeClicked={this.animeClicked}
                             />
                         </div>
                     )
