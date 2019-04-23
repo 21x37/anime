@@ -77,31 +77,30 @@ class KitsuRow extends React.Component {
             };
         });
     };
-    async animeClicked(title) {
-        console.log(title);
-        await this.props.onAnimeClicked(this.props.row, title);
+    async animeClicked(anime) {
+        console.log(anime.title);
+        await this.props.onAnimeClicked(this.props.row, anime);
 
         if (this.props.allowShowcaseAnime) {
-            if (this.state.clickedTitle !== title) {
-                this.setState({ clickedTitle: title })
+            if (this.state.clickedTitle !== anime.title) {
+                this.setState({ clickedTitle: anime.title })
             } else {
                 this.setState({ clickedTitle: null })
             };
         };
-
-
     }
     render() {
         return (
         <div className='kitsu-row'>
             <button onClick={this.onClickLeft}>Back</button>
             {this.state.animes.map((anime) => {
+                console.log(anime);
                     return (
                         <div className='individual-show-container' key={uuid()}>
                             <IndividualShow 
                                 title={anime.title} 
                                 description={anime.description} 
-                                epsiodes={anime.episodes}
+                                episodes={anime.episodes}
                                 ageRating={anime.ageRating}
                                 image={anime.image}
                                 width={this.props.clickedTitle === anime.title ? '250px' : '150px'}

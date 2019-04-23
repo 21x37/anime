@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import KitsuRow from './Rows/KitsuRow';
+import ShowcasedAnime from './ShowcasedAnime';
 
 class Kitsu extends React.Component {
     constructor(props) {
@@ -10,11 +11,13 @@ class Kitsu extends React.Component {
             offset: 0,
             loading: true,
             clickedRow: 0,
-            clickedTitle: ''
+            clickedTitle: '',
+            clickedAnime: {}
         }
         this.onClickRight = this.onClickRight.bind(this);
         this.onClickLeft = this.onClickLeft.bind(this);
         this.onAnimeClicked = this.onAnimeClicked.bind(this);
+        this.resetShowcase = this.resetShowcase.bind(this);
     }
     async componentDidMount() {
         axios.get('/kitsu/api')
@@ -25,7 +28,6 @@ class Kitsu extends React.Component {
                     loading: false
                 };
             });
-            console.log(res);
         });
     };
     async onClickLeft() {
@@ -57,6 +59,7 @@ class Kitsu extends React.Component {
 
     };
     async onClickRight() {
+        // If the last anime is reached reset to first anime on click
         if (this.state.offset === 12062) {
             await this.setState(() => {
                 return {
@@ -65,6 +68,7 @@ class Kitsu extends React.Component {
                     loading: true
                 };
             });
+        // Else swap to the next 10 available animes
         } else {
             await this.setState((prevState) => {
                 return {
@@ -84,30 +88,44 @@ class Kitsu extends React.Component {
         });
 
     };
-    async onAnimeClicked(row, title) {
+    async onAnimeClicked(row, anime) {
         console.log(row)
-        if (title !== this.state.clickedTitle) {
+        if (anime.title !== this.state.clickedTitle) {
             await this.setState(() => {
                 return {
                     clickedRow: row,
-                    clickedTitle: title
+                    clickedTitle: anime.title,
+                    clickedAnime: anime
                 }
             });
         } else {
             await this.setState(() => {
                 return {
                     clickedRow: 0,
-                    clickedTitle: ''
+                    clickedTitle: '',
+                    clickedAnime: {}
                 }
             })
         }
-
-
+    };
+    resetShowcase() {
+        if (this.state.anime === this.state.clickedAnime) {
+            this.setState(() => {
+                return {
+                    clickedRow: 0,
+                    clickedTitle: '',
+                    clickedAnime: {}
+                };
+            });
+        }
+ 
+        console.log('fired');
     };
     render() {
         return (
-            <div>
+            <div onClick={this.resetShowcase}>
                 {this.state.loading && <p>Loading...</p>}
+                <ShowcasedAnime anime={this.state.clickedAnime} />
                 <KitsuRow row='1' allowShowcaseAnime={this.state.clickedRow === '1'} clickedTitle={this.state.clickedTitle} onAnimeClicked={this.onAnimeClicked} offset='0'/>
                 <KitsuRow row='2' allowShowcaseAnime={this.state.clickedRow === '2'} clickedTitle={this.state.clickedTitle} onAnimeClicked={this.onAnimeClicked} offset='300'/>
                 <KitsuRow row='3' allowShowcaseAnime={this.state.clickedRow === '3'} clickedTitle={this.state.clickedTitle} onAnimeClicked={this.onAnimeClicked} offset='600'/>
