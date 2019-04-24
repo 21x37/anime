@@ -11,6 +11,7 @@ import Kitsu from './homePage/Kitsu/Kitsu';
 const Index = () => {
     return (
         <div className='homepage'>
+            <Header/>
             <HomePage />
             <Kitsu />
             <p>Rendered</p>

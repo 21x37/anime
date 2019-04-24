@@ -33,10 +33,7 @@ class IndividualShow extends React.Component {
                     visible: true
                 }
             })
-        } else {
-            
         }
-
     }
     onMouseLeave() {
         if (this.state.clicked === false) {
