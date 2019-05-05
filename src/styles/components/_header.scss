@@ -1,0 +1,35 @@
+.header-container {
+    background:  #1d1145;
+    width: 100vw;
+    padding: 2px 0;
+};
+
+.header-container h1 {
+    color: $salmonPink;
+    left: 150px;
+    font-family: 'Roboto', Helvetica, Arial;
+    font-weight: 300;
+    position: relative;
+}
+
+.header-home {
+    text-decoration: none;
+}
+
+.header-link {
+    color: $pink;
+    font-family: 'Roboto', Helvetica, Arial;
+    font-size: 140%;
+    text-decoration: none;
+    z-index: 5;
+}
+
+.header-link-wrapper {
+    right: 50px;
+    margin-top: -52px;
+    position: absolute;
+}
+
+.header-link-wrapper span {
+    margin-right: 80px;
+}

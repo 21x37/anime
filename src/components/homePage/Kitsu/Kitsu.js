@@ -22,13 +22,14 @@ class Kitsu extends React.Component {
     async componentDidMount() {
         axios.get('/kitsu/api')
         .then((res) => {
+            console.log(res);
             this.setState(() => {
                 return {
                     animes: res.data,
                     loading: false
                 };
             });
-        });
+        }).catch((e) => console.log(e));
     };
     async onClickLeft() {
         if (this.state.offset !== 0) {
